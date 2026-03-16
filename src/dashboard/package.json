@@ -1,0 +1,18 @@
+{
+    "name": "@gov.nasa.jpl.hermes/dashboard",
+    "version": "1.0.0",
+    "private": true,
+    "main": "src/index.tsx",
+    "scripts": {
+        "build": "cd ../../ && node build.js src/dashboard",
+        "watch": "cd ../../ && node build.js src/dashboard --watch",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@tanstack/react-virtual": "^3.13.12",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
+    }
+}

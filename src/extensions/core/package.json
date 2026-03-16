@@ -1,0 +1,495 @@
+{
+    "name": "hermes",
+    "displayName": "Hermes",
+    "description": "Hermes Telemetry & Command Frontend for VSCode",
+    "version": "4.0.0",
+    "icon": "icons/hermes.png",
+    "repository": {
+        "url": "https://github.com/nasa/hermes.git",
+        "type": "git"
+    },
+    "license": "Apache-2.0",
+    "author": {
+        "name": "Andrei Tumbar",
+        "email": "andrei.tumbar@jpl.nasa.gov"
+    },
+    "publisher": "jet-propulsion-laboratory",
+    "engines": {
+        "vscode": "^1.76.0"
+    },
+    "categories": [
+        "Visualization"
+    ],
+    "keywords": [
+        "hermes",
+        "robot",
+        "visualization",
+        "fprime",
+        "flight-software"
+    ],
+    "activationEvents": [
+        "onFileSystem:hermes",
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "customEditors": [
+            {
+                "viewType": "hermes.evr",
+                "displayName": "Hermes Event Records",
+                "selector": [
+                    {
+                        "filenamePattern": "evrs.json"
+                    },
+                    {
+                        "filenamePattern": "*.evrs.json"
+                    }
+                ]
+            }
+        ],
+        "commands": [
+            {
+                "command": "hermes.downlink.clear",
+                "title": "Clear Downlink Listing",
+                "icon": "$(clear-all)"
+            },
+            {
+                "command": "hermes.downlink.open",
+                "title": "Open File",
+                "icon": "$(go-to-file)"
+            },
+            {
+                "command": "hermes.uplink.add",
+                "title": "Open File to Uplink",
+                "icon": "$(plus)"
+            },
+            {
+                "command": "hermes.uplink.start",
+                "title": "Uplink File",
+                "icon": "$(radio-tower)"
+            },
+            {
+                "command": "hermes.uplink.targetEdit",
+                "title": "Edit",
+                "icon": "$(edit)"
+            },
+            {
+                "command": "hermes.uplink.destinationEdit",
+                "title": "Edit",
+                "icon": "$(edit)"
+            },
+            {
+                "command": "hermes.uplink.delete",
+                "title": "Delete",
+                "icon": "$(trash)"
+            },
+            {
+                "command": "hermes.uplink.cancel",
+                "title": "Cancel File Uplink",
+                "icon": "$(debug-stop)"
+            },
+            {
+                "command": "hermes.uplink.clear",
+                "title": "Clear Uplink Listing",
+                "icon": "$(clear-all)"
+            },
+            {
+                "command": "hermes.testbed.signoff",
+                "title": "Operator Signoff",
+                "icon": "$(check-all)"
+            },
+            {
+                "command": "hermes.host.changeMode",
+                "title": "Hermes: Change Backend Mode",
+                "category": "Hermes"
+            },
+            {
+                "command": "hermes.host.changeRemote",
+                "title": "Hermes: Change Remote Selection",
+                "category": "Hermes"
+            },
+            {
+                "command": "hermes.host.reconnect",
+                "title": "Hermes: Reconnect to Backend",
+                "category": "Hermes",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "hermes.connections.array.removeItem",
+                "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasRemove",
+                "title": "Delete"
+            },
+            {
+                "command": "hermes.connections.array.copyItem",
+                "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasCopy",
+                "title": "Duplicate"
+            },
+            {
+                "command": "hermes.connections.array.moveUp",
+                "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasMoveUp",
+                "title": "Move up"
+            },
+            {
+                "command": "hermes.connections.array.moveDown",
+                "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasMoveDown",
+                "title": "Move down"
+            }
+        ],
+        "viewsContainers": {
+            "panel": [
+                {
+                    "id": "hermes-evrPanel",
+                    "title": "Hermes",
+                    "icon": "$(list-unordered)"
+                }
+            ],
+            "activitybar": [
+                {
+                    "id": "hermes",
+                    "title": "Hermes",
+                    "icon": "./icons/rover-color-512.png"
+                }
+            ]
+        },
+        "views": {
+            "hermes-evrPanel": [
+                {
+                    "type": "webview",
+                    "id": "hermes.evrPanel",
+                    "name": "EVR Panel",
+                    "icon": "$(list-unordered)"
+                }
+            ],
+            "hermes": [
+                {
+                    "type": "webview",
+                    "id": "hermes.connections",
+                    "name": "Connections",
+                    "icon": "./icons/rover-color-512.png"
+                },
+                {
+                    "id": "hermes.uplink",
+                    "name": "Uplink",
+                    "icon": "$(radio-tower)"
+                },
+                {
+                    "id": "hermes.downlink",
+                    "name": "Downlink",
+                    "icon": "$(cloud-download)"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "hermes.downlink.clear",
+                    "when": "view == hermes.downlink",
+                    "group": "navigation@1"
+                },
+                {
+                    "command": "hermes.uplink.clear",
+                    "when": "view == hermes.uplink",
+                    "group": "navigation@1"
+                },
+                {
+                    "command": "hermes.uplink.add",
+                    "when": "view == hermes.uplink",
+                    "group": "navigation@2"
+                }
+            ],
+            "notebook/cell/title": [
+                {
+                    "command": "hermes.testbed.signoff",
+                    "when": "notebookType == hermes.notebook && notebookCellType == markup && !notebookCellMarkdownEditMode",
+                    "group": "inline/cell@0"
+                }
+            ],
+            "webview/context": [
+                {
+                    "command": "hermes.connections.array.copyItem",
+                    "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasCopy"
+                },
+                {
+                    "command": "hermes.connections.array.moveUp",
+                    "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasMoveUp"
+                },
+                {
+                    "command": "hermes.connections.array.moveDown",
+                    "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasMoveDown"
+                },
+                {
+                    "command": "hermes.connections.array.removeItem",
+                    "when": "webviewId == 'hermes.connections' && webviewSection == 'arrayItem' && hasRemove"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "hermes.downlink.open",
+                    "when": "view == hermes.downlink && viewItem == hermes.downlink.file",
+                    "group": "inline"
+                },
+                {
+                    "command": "hermes.uplink.targetEdit",
+                    "when": "view == hermes.uplink && viewItem == hermes.uplink.target",
+                    "group": "inline"
+                },
+                {
+                    "command": "hermes.uplink.destinationEdit",
+                    "when": "view == hermes.uplink && viewItem == hermes.uplink.destination",
+                    "group": "inline"
+                },
+                {
+                    "command": "hermes.uplink.cancel",
+                    "when": "view == hermes.uplink && viewItem == hermes.uplink.active",
+                    "group": "inline"
+                },
+                {
+                    "command": "hermes.uplink.start",
+                    "when": "view == hermes.uplink && viewItem == hermes.uplink.pending",
+                    "group": "inline"
+                },
+                {
+                    "command": "hermes.uplink.delete",
+                    "when": "view == hermes.uplink && viewItem == hermes.uplink.pending",
+                    "group": "inline"
+                }
+            ]
+        },
+        "configuration": [
+            {
+                "title": "Host (Backend)",
+                "properties": {
+                    "hermes.host.remotes": {
+                        "type": "object",
+                        "description": "Set of configured remote Hermes services to connect to",
+                        "additionalProperties": {
+                            "type": "object",
+                            "properties": {
+                                "label": {
+                                    "type": "string",
+                                    "description": "Human readable label of this remote connection. Leave blank to use the URL instead",
+                                    "default": ""
+                                },
+                                "url": {
+                                    "type": "string",
+                                    "description": "Host URL. Use 'https://' address to enable encryption and authentication",
+                                    "default": "http://localhost:6880"
+                                },
+                                "authenticationMethod": {
+                                    "type": "string",
+                                    "markdownDescription": "Authentication method to use when connecting to the server.\n\nA non-'none' authentication method also requires an 'https' (encryption enabled) host address.",
+                                    "default": "none",
+                                    "enum": [
+                                        "none",
+                                        "userpass",
+                                        "token"
+                                    ],
+                                    "enumItemLabels": [
+                                        "No Authentication",
+                                        "Username/Password",
+                                        "Authentication Token"
+                                    ],
+                                    "enumDescriptions": [
+                                        "Credential-less connection",
+                                        "Username/Password usually connected to LDAP login",
+                                        "Token based authentication. Request a token from your Hermes administrator"
+                                    ]
+                                },
+                                "skipTLSVerify": {
+                                    "type": "boolean",
+                                    "description": "Skip SSL/TLS certificate validation from the server. This is useful when the client is not set up with the proper certificates to allow connecting to internal websites",
+                                    "default": false
+                                },
+                                "color": {
+                                    "type": "string",
+                                    "description": "Color override (in the form #AABBCC hex) to display on the VSCode status bar when connected to this remote. Leave blank to not apply a color.",
+                                    "default": ""
+                                }
+                            }
+                        }
+                    },
+                    "hermes.host.binary": {
+                        "description": "Path to a Hermes backend binary to run for 'local' host mode. Leave blank to use bundled backend binary.",
+                        "type": "string"
+                    }
+                }
+            },
+            {
+                "title": "Notebook",
+                "properties": {
+                    "hermes.notebook.signoff.template": {
+                        "description": "String template used for operator signoff",
+                        "type": "string",
+                        "default": "> {date} {name}"
+                    },
+                    "hermes.notebook.signoff.datetime": {
+                        "description": "Momentjs datetime format",
+                        "type": "string",
+                        "default": "MMMM Do YYYY, h:mm:ss a"
+                    },
+                    "hermes.notebook.signoff.name": {
+                        "description": "Operator Name used for operator signoff",
+                        "type": "string",
+                        "default": "OPERATOR NAME"
+                    },
+                    "hermes.notebook.evr.timeFormat": {
+                        "description": "Time format of the EVR sclk in notebook outputs. Use raw SCLK if FSW SCLK does not correspond to seconds since Epoch",
+                        "type": "string",
+                        "default": "sclk",
+                        "enum": [
+                            "utc",
+                            "local",
+                            "sclk"
+                        ],
+                        "enumDescriptions": [
+                            "Coordinated Universal Time (Zulu time)",
+                            "Local time (offset of GMT)",
+                            "Spacecraft clock"
+                        ]
+                    },
+                    "hermes.notebook.evrDiagnostic": {
+                        "markdownDescription": "Show `DIAGNOSTIC` EVRs in testbed procedures",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "hermes.notebook.evrCommand": {
+                        "markdownDescription": "Show `COMMAND` EVRs in testbed procedures",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "hermes.notebook.evrActivityLow": {
+                        "markdownDescription": "Show `ACTIVITY_LO` EVRs in testbed procedures",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "hermes.notebook.evrActivityHigh": {
+                        "markdownDescription": "Show `ACTIVITY_HI` EVRs in testbed procedures",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "hermes.notebook.evrWarningLow": {
+                        "markdownDescription": "Show `WARNING_LO` EVRs in testbed procedures",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "hermes.notebook.evrWarningHigh": {
+                        "markdownDescription": "Show `WARNING_HI` EVRs in testbed procedures",
+                        "type": "boolean",
+                        "default": true
+                    },
+                    "hermes.notebook.evrFatal": {
+                        "markdownDescription": "Show `FATAL` EVRs in testbed procedures",
+                        "type": "boolean",
+                        "default": true
+                    }
+                }
+            },
+            {
+                "title": "Dictionaries",
+                "properties": {
+                    "hermes.dictionaries": {
+                        "type": "array",
+                        "markdownDescription": "Additional dictionaries to load (beyond auto-discovered dictionaries in `build-artifacts/`). Each dictionary must specify a loader and file path.",
+                        "default": [],
+                        "items": {
+                            "type": "object",
+                            "required": ["loader", "file"],
+                            "properties": {
+                                "loader": {
+                                    "type": "string",
+                                    "description": "Dictionary loader ID (e.g., 'fprime.json', 'fprime.xml')"
+                                },
+                                "file": {
+                                    "type": "string",
+                                    "description": "Path to the dictionary file"
+                                },
+                                "id": {
+                                    "type": "string",
+                                    "description": "Optional: Explicit dictionary ID (defaults to filename)"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        ],
+        "languages": [
+            {
+                "id": "uplink",
+                "configuration": "./syntax/uplink.language.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "uplink",
+                "scopeName": "source.uplink",
+                "path": "./syntax/uplink.tmLanguage.json"
+            }
+        ],
+        "notebooks": [
+            {
+                "id": "hermes.notebook",
+                "type": "hermes.notebook",
+                "displayName": "Hermes Notebook",
+                "selector": [
+                    {
+                        "filenamePattern": "*.hermes"
+                    },
+                    {
+                        "filenamePattern": "*.hermes.md"
+                    }
+                ]
+            }
+        ],
+        "notebookRenderer": [
+            {
+                "id": "hermes-evr-renderer",
+                "displayName": "Hermes Event Renderer",
+                "entrypoint": "./out/evr-renderer.js",
+                "mimeTypes": [
+                    "hermes.notebook/evr"
+                ],
+                "requiresMessaging": "optional"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "yarn clean && yarn compile && yarn backend",
+        "clean": "rm -rf ./out",
+        "compile": "cd ../../../ && node build src/extensions/core",
+        "package": "vsce package --yarn",
+        "backend": "cp ../../../out/backend out/backend || cp ../../../out/backend.exe out/backend.exe",
+        "backend:linux-x64": "cd ../../../ && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 GO_FLAGS='-trimpath -ldflags=\"-s -w\"' make out/backend && cp out/backend src/extensions/core/out/backend",
+        "backend:linux-arm64": "cd ../../../ && GOOS=linux GOARCH=arm64 CGO_ENABLED=0 GO_FLAGS='-trimpath -ldflags=\"-s -w\"' make out/backend && cp out/backend src/extensions/core/out/backend",
+        "backend:darwin-x64": "cd ../../../ && GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 GO_FLAGS='-trimpath -ldflags=\"-s -w\"' make out/backend && cp out/backend src/extensions/core/out/backend",
+        "backend:darwin-arm64": "cd ../../../ && GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 GO_FLAGS='-trimpath -ldflags=\"-s -w\"' make out/backend && cp out/backend src/extensions/core/out/backend",
+        "backend:win32-x64": "cd ../../../ && GOOS=windows GOARCH=amd64 CGO_ENABLED=0 GO_FLAGS='-trimpath -ldflags=\"-s -w\"' make out/backend && cp out/backend src/extensions/core/out/backend.exe",
+        "backend:win32-arm64": "cd ../../../ && GOOS=windows GOARCH=arm64 CGO_ENABLED=0 GO_FLAGS='-trimpath -ldflags=\"-s -w\"' make out/backend && cp out/backend src/extensions/core/out/backend.exe",
+        "package:platform": "yarn clean && yarn compile && yarn backend:${VSCODE_TARGET} && vsce package --yarn --target ${VSCODE_TARGET}"
+    },
+    "devDependencies": {
+        "@commander-js/extra-typings": "^13.1.0",
+        "@rjsf/core": "5.18.6",
+        "@rjsf/utils": "5.18.6",
+        "@rjsf/validator-ajv8": "5.18.6",
+        "@tanstack/react-virtual": "^3.13.12",
+        "@types/react": "^19.0.0",
+        "@types/react-dom": "^19.0.0",
+        "@types/tmp": "^0.2.6",
+        "@types/vscode-notebook-renderer": "^1.72.3",
+        "@vscode-elements/react-elements": "^2.4.0",
+        "@vscode/codicons": "^0.0.44",
+        "@vscode/webview-ui-toolkit": "^1.4.0",
+        "ajv": "^8.12.0",
+        "commander": "^13.1.0",
+        "moment": "^2.29.4",
+        "path-browserify": "^1.0.1",
+        "prop-types": "^15.8.1",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0",
+        "sass": "^1.53.0",
+        "util": "^0.12.4",
+        "vscode-notebook-error-overlay": "^1.0.1"
+    },
+    "gitHead": "28d4edeb3c753a29612706e3c9d2be717324ff24"
+}

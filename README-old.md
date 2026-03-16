@@ -1,0 +1,57 @@
+<h2 align="center">Hermes, A Lightweight Telemetry and Commanding Framework</h2>
+<p align="center"><br/>
+<img width="200em" src="docs/assets/hermes.svg" />
+</p>
+
+#
+Hermes is a plugin driven spacecraft telemetry processing and commanding
+framework built around a variety of mature open-source software.
+
+> [!IMPORTANT]  
+> Hermes is currently undergoing migration from our internal deployment
+> to public Github. Documentation is in the works.
+
+## Hermes Capabilities
+
+- Command completion, validation, & dispatch inside a [Visual Studio Code](https://code.visualstudio.com/) interface.
+- Telemetry database interaction with a variety of [databases](#databases).
+- An extensible and pluggable telemetry processing framework for interacting with flight software downlink
+- Out of the box support for [F Prime](https://github.com/nasa/fprime)
+- Integration with [Grafana](https://grafana.com)
+- **Web-based telemetry dashboard** for read-only monitoring without VSCode
+
+## Web Dashboard
+
+A lightweight React-based web UI for stakeholders who need read-only access to
+telemetry and event data without the full VSCode environment.
+
+### Running the Dashboard
+
+```bash
+# Build
+yarn install && yarn build
+
+# Start the backend with the dashboard enabled
+go run ./cmd/backend --dashboard-port 8080 --dashboard-dir src/dashboard/out
+```
+
+Open `http://localhost:8080` in any modern browser (Chrome, Firefox, Safari, Edge).
+
+### Features
+
+| Tab | Description |
+| --- | --- |
+| **Telemetry** | Real-time channel values with 100ms batched rendering, source/name filtering |
+| **Events** | Scrollable event log with severity coloring, source/severity/text filters, auto-scroll |
+| **Connections** | Live FSW connection cards with expandable details |
+
+For detailed setup instructions, see [quickstart.md](specs/001-web-telemetry-dashboard/quickstart.md).
+
+## Databases
+
+- InfluxDB (v2): Native support inside a [builtin profile]()
+- TimescaleDB: Support through [Telegraf](https://github.com/influxdata/telegraf)
+- OpenTelemetry Compatible Databases:
+  - Mimir/Prometheus -- Numeric telemetry
+  - Loki -- Logging/events
+  - Tempo -- Commands/File uplink/File Downlink
