@@ -2,23 +2,23 @@ name: F Prime Build Template
 
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Final docker image tag to push to this repos registry'
-        required: true
-        type: string
-      fprime-branch:
-        description: 'Branch to pull from F Prime to build'
-        required: true
-        type: string
-  workflow_call:
-    inputs:
-      tag:
-        required: true
-        type: string
-      fprime-branch:
-        required: true
-        type: string
+  #   inputs:
+  #     tag:
+  #       description: 'Final docker image tag to push to this repos registry'
+  #       required: true
+  #       type: string
+  #     fprime-branch:
+  #       description: 'Branch to pull from F Prime to build'
+  #       required: true
+  #       type: string
+  # workflow_call:
+  #   inputs:
+  #     tag:
+  #       required: true
+  #       type: string
+  #     fprime-branch:
+  #       required: true
+  #       type: string
 
 jobs:
   build-fprime-cache:

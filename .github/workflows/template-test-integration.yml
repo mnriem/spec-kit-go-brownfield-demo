@@ -1,11 +1,12 @@
 name: F Prime Integration Test Template
 
 on:
-  workflow_call:
-    inputs:
-      fprime-tag:
-        required: true
-        type: string
+  workflow_dispatch:
+  # workflow_call:
+  #   inputs:
+  #     fprime-tag:
+  #       required: true
+  #       type: string
 
 jobs:
   integration-test:
