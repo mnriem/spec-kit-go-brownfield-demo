@@ -42,7 +42,7 @@ long, but doing it upfront keeps the momentum going once you start.
 | **GitHub Copilot CLI** | `copilot --version` | `gh extension install github/gh-copilot` |
 
 > **Using a different agent?** Any [supported agent](https://github.com/github/spec-kit#-supported-ai-agents)
-> works. Replace `--ai copilot` with your agent (e.g. `--ai claude`, `--ai gemini`)
+> works. Replace `--integration copilot` with your agent (e.g. `--integration claude`, `--integration gemini`)
 > and invoke commands using your agent's interface instead of `copilot`. The prompts
 > are identical.
 
@@ -151,16 +151,16 @@ specify --help
 ## Step 3 — Initialize the Project
 
 ```bash
-specify init . --ai copilot
+specify init . --integration copilot
 ```
 
 > **Using a different agent?** Replace `copilot` with your agent name
-> (e.g. `--ai claude`, `--ai gemini`). The rest of the workflow is identical.
+> (e.g. `--integration claude`, `--integration gemini`). The rest of the workflow is identical.
 
 This scaffolded the spec-kit structure into the existing repo and installed the
 agent-specific command files. For Copilot, these live in `.github/agents/`.
 
-The key thing to notice: `--ai copilot` with `.` (current directory) means
+The key thing to notice: `--integration copilot` with `.` (current directory) means
 spec-kit merged into the existing Hermes project without destroying anything.
 This is how brownfield initialization works.
 
