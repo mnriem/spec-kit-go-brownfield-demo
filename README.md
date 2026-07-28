@@ -36,7 +36,7 @@ uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
 ## Step 3 — Initialize the project
 
 ```bash
-specify init . --ai copilot
+specify init . --integration copilot
 ```
 
 This scaffolded the spec-kit structure and installed the Copilot custom agents.
